@@ -5,4 +5,6 @@ React Native Project to display list of product and its description. This projec
 1. Yarn Install
 2. Yarn start
 
+## Expl
+Screenshot folder contains app's screenshot
 

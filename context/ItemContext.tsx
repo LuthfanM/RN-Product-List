@@ -6,9 +6,7 @@ import { ItemType } from "../helper/types";
 export type TItemType = {
   items: ItemType[];
   pull: boolean;
-  FetchMore: () => void;
-  noScrol: boolean;
-  setnoScrol: React.Dispatch<React.SetStateAction<boolean>>;
+  FetchMore: () => void;  
 };
 
 export const ItemContext = createContext<TItemType | null>(null);
@@ -28,28 +26,25 @@ export const ItemProvider = (Props: {
     { id: 0, name: "", desc: "", cover: "https://google.com", price: "" },
   ]);
   const [pull, setPull] = useState<boolean>(false);
-  const [noScrol, setnoScrol] = useState<boolean>(false);
 
-  const FetchMore = () => {    
+  const FetchMore = () => {
     setPull(!pull);
   };
 
-  useEffect(() => {        
-      Api.fetchItem(API_URL)
-        .then((res) => {
-          setItems(res);
-          setPull(false);
-        })
-        .catch((err) => {
-          setPull(false);
-          throw new Error("error happen");
-        });
+  useEffect(() => {
+    Api.fetchItem(API_URL)
+      .then((res) => {
+        setItems(res);
+        setPull(false);
+      })
+      .catch((err) => {
+        setPull(false);
+        throw new Error("error happen");
+      });
   }, [pull]);
 
   return (
-    <ItemContext.Provider
-      value={{ items, pull, FetchMore, noScrol, setnoScrol }}
-    >
+    <ItemContext.Provider value={{ items, pull, FetchMore }}>
       {Props.children}
     </ItemContext.Provider>
   );

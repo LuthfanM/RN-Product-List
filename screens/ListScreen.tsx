@@ -1,8 +1,9 @@
 import React, { useContext, useRef } from "react";
 import {
-  View,  
+  View,
   TouchableWithoutFeedback,
-  ScrollView,  
+  ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { MainCard } from "../components/MainCard";
 import { ItemContext, TItemType } from "../context/ItemContext";
@@ -17,7 +18,7 @@ import BottomNavigationBar from "../components/BottomNavigationBar";
 import Loading from "../components/Loading";
 
 const ListScreen = ({ route, navigation }: ListProps): JSX.Element => {
-  const { items, pull, setnoScrol } = useContext(ItemContext) as TItemType;
+  const { items, pull } = useContext(ItemContext) as TItemType;
   const swipeUpDownRef = useRef<any>(); //access dom
 
   console.log("isi item", items);
@@ -27,8 +28,7 @@ const ListScreen = ({ route, navigation }: ListProps): JSX.Element => {
     });
   };
 
-  const onShow = (e: any) => {
-    setnoScrol(true);
+  const onShow = () => {    
     swipeUpDownRef.current.showFull();
   };
 
@@ -56,24 +56,19 @@ const ListScreen = ({ route, navigation }: ListProps): JSX.Element => {
         ref={swipeUpDownRef}
         itemFull={(close: any) => (
           <ScrollView>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                setnoScrol(false);
-                close;
-              }}
-            >
+            <TouchableWithoutFeedback>
               <View style={{ borderTopLeftRadius: 10, borderTopWidth: 10 }}>
-                {/* <TouchableOpacity onPress={close}> */}
-                <OverlayScreen />
-                {/* </TouchableOpacity> */}
+                <TouchableOpacity onPress={close}>
+                  <OverlayScreen />
+                </TouchableOpacity>
               </View>
             </TouchableWithoutFeedback>
           </ScrollView>
         )}
-        onShowFull={() => console.log("full")}
+        // onShowFull={() => console.log("full")}
         animation="spring"
         extraMarginTop={5}
-        disableSwipeIcon        
+        disableSwipeIcon
         style={{ backgroundColor: "white" }} // style for swipe
       />
     </AppLayout>

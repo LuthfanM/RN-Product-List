@@ -10,7 +10,7 @@ interface Props {
 export const AppLayout = ({ children }: Props) => {
   const [refreshing, setRefreshing] = useState(false);
 
-  const { FetchMore, noScrol } = useContext(ItemContext) as TItemType;
+  const { FetchMore } = useContext(ItemContext) as TItemType;
 
   const onRefresh = () => {
     FetchMore();
@@ -23,9 +23,8 @@ export const AppLayout = ({ children }: Props) => {
         <ScrollView
           contentContainerStyle={styles.scrollContainer}          
           refreshControl={
-            <RefreshControl enabled={noScrol? false: true} refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          bounces={noScrol? false: true}
+            <RefreshControl  refreshing={refreshing} onRefresh={onRefresh} />
+          }          
         >
           {children}
         </ScrollView>      
