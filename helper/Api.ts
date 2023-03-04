@@ -6,7 +6,9 @@ export default {
     try {
       return new Promise((resolve,reject) => {
         return axios
-          .get(url)
+          .get(url, {
+            timeout: 5000
+          })
           .then((response) => {
             resolve(response.data);
           })

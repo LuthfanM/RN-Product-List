@@ -1,15 +1,17 @@
 import React, { createContext, useEffect, useState } from "react";
-import axios from "axios";
 import { API_URL } from "../helper/Constant";
 import Api from "../helper/Api";
 import { ItemType } from "../helper/types";
 
-type TItemContext = [
-  ItemType[],
-  ()=>void
-  // React.Dispatch<React.SetStateAction<ItemType[]>>
-];
-export const ItemContext = createContext<TItemContext>([[], () => null]);
+export type TItemType = {
+  items: ItemType[];
+  pull: boolean;
+  FetchMore: () => void;
+  noScrol: boolean;
+  setnoScrol: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const ItemContext = createContext<TItemType | null>(null);
 
 export const ItemProvider = (Props: {
   children:
@@ -22,15 +24,17 @@ export const ItemProvider = (Props: {
     | null
     | undefined;
 }) => {
-  const [items, setItems] = useState<ItemType[]>([]);
+  const [items, setItems] = useState<ItemType[]>([
+    { id: 0, name: "", desc: "", cover: "https://google.com", price: "" },
+  ]);
   const [pull, setPull] = useState<boolean>(false);
+  const [noScrol, setnoScrol] = useState<boolean>(false);
 
-  const FetchMore = () => {
-    console.log("PULLED")
-    setPull(true);
+  const FetchMore = () => {    
+    setPull(!pull);
   };
 
-  useEffect(() => {    
+  useEffect(() => {        
       Api.fetchItem(API_URL)
         .then((res) => {
           setItems(res);
@@ -39,11 +43,13 @@ export const ItemProvider = (Props: {
         .catch((err) => {
           setPull(false);
           throw new Error("error happen");
-        });    
+        });
   }, [pull]);
 
   return (
-    <ItemContext.Provider value={[items, FetchMore]}>
+    <ItemContext.Provider
+      value={{ items, pull, FetchMore, noScrol, setnoScrol }}
+    >
       {Props.children}
     </ItemContext.Provider>
   );

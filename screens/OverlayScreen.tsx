@@ -1,9 +1,6 @@
 import React from "react";
 import {
-  View,
-  TouchableWithoutFeedback,
-  ScrollView,
-  TouchableOpacity,
+  View,  
   Pressable,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";

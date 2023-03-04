@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button } from "react-native-paper";
 import ItemProvider from "./context/ItemContext";
 import { LIST, PRODUCT } from "./helper/Constant";
 import { RootStackParamList } from "./helper/types";

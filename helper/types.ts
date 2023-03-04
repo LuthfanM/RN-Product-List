@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GestureResponderEvent } from "react-native/types";
-import { LIST, PRODUCT } from "./Constant";
 
 type ItemType = {
   id: number;

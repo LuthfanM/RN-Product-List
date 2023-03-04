@@ -1,13 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import {
-  View,
-  Text,
+  View,  
   TouchableWithoutFeedback,
-  ScrollView,
-  TouchableOpacity,
+  ScrollView,  
 } from "react-native";
 import { MainCard } from "../components/MainCard";
-import { ItemContext } from "../context/ItemContext";
+import { ItemContext, TItemType } from "../context/ItemContext";
 import { AppLayout } from "../components/Layout/AppLayout";
 import { Row } from "../components/Layout/Row";
 import { Column } from "../components/Layout/Column";
@@ -16,10 +14,11 @@ import styles from "../styles/styles";
 import SwipeUpDown from "react-native-swipe-up-down";
 import OverlayScreen from "../screens/OverlayScreen";
 import BottomNavigationBar from "../components/BottomNavigationBar";
+import Loading from "../components/Loading";
 
 const ListScreen = ({ route, navigation }: ListProps): JSX.Element => {
-  const [items] = useContext(ItemContext);
-  const swipeUpDownRef = useRef<any>();//access dom
+  const { items, pull, setnoScrol } = useContext(ItemContext) as TItemType;
+  const swipeUpDownRef = useRef<any>(); //access dom
 
   console.log("isi item", items);
   const navigate = (data: ItemType) => {
@@ -28,7 +27,8 @@ const ListScreen = ({ route, navigation }: ListProps): JSX.Element => {
     });
   };
 
-  const onShow = (e: any) => {    
+  const onShow = (e: any) => {
+    setnoScrol(true);
     swipeUpDownRef.current.showFull();
   };
 
@@ -50,26 +50,30 @@ const ListScreen = ({ route, navigation }: ListProps): JSX.Element => {
 
   return (
     <AppLayout>
-      <Row>{generateItem()}</Row>
+      {!pull ? <Row>{generateItem()}</Row> : <Loading />}
       <BottomNavigationBar onMiddlePress={onShow} />
       <SwipeUpDown
-        ref={swipeUpDownRef}        
+        ref={swipeUpDownRef}
         itemFull={(close: any) => (
-          <ScrollView >           
-            <TouchableWithoutFeedback onPress={close}> 
-              <View style={{borderTopLeftRadius: 10, borderTopWidth: 10}}>
+          <ScrollView>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                setnoScrol(false);
+                close;
+              }}
+            >
+              <View style={{ borderTopLeftRadius: 10, borderTopWidth: 10 }}>
                 {/* <TouchableOpacity onPress={close}> */}
-                  <OverlayScreen />
+                <OverlayScreen />
                 {/* </TouchableOpacity> */}
-              </View>      
-              </TouchableWithoutFeedback>      
+              </View>
+            </TouchableWithoutFeedback>
           </ScrollView>
-          
-        )}        
+        )}
         onShowFull={() => console.log("full")}
         animation="spring"
         extraMarginTop={5}
-        disableSwipeIcon={true}          
+        disableSwipeIcon        
         style={{ backgroundColor: "white" }} // style for swipe
       />
     </AppLayout>
