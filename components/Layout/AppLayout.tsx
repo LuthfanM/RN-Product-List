@@ -13,21 +13,22 @@ export const AppLayout = ({ children }: Props) => {
   const [FetchMore] = useContext(ItemContext);
 
   const onRefresh = () => {
-    setRefreshing(true);
-    console.log("masuk kah")    
+    FetchMore;
+    setRefreshing(true);    
+    console.log("masuk kah");
     setTimeout(() => setRefreshing(false), 2000);
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-        <View style={styles.container}>
-      {children}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {children}
+      </ScrollView>
+    </View>
   );
 };

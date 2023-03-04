@@ -3,8 +3,12 @@ import { Dimensions, StyleSheet } from "react-native";
 const styles: Record<string, any> = StyleSheet.create({
   container: {
     marginTop: 10,
-    width: "100%",
-    height: Dimensions.get("window").height - 80    
+    flex: 1,
+    height: '100%'
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   fullLayout: {
       display: 'flex',
@@ -47,10 +51,10 @@ const styles: Record<string, any> = StyleSheet.create({
     paddingBottom: 10,
     position: 'relative',
   },
-  navbar: {
+  navbar: {        
     flexDirection: 'row',
     backgroundColor: 'white',
-    width: '80%',
+    width: '90%',
     borderRadius: 40,
     alignItem: 'center',
     justifyContent: 'space-evenly',
@@ -62,6 +66,15 @@ const styles: Record<string, any> = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     elevation: 5  
+  },
+  expands: {
+    position: 'absolute',            
+    borderTopColor: 'red',
+    height: 3,
+    width: 15,    
+    bottom: 60,
+    borderTopWidth: 5,
+    zIndex: 100
   },
   paddIcon: {
     padding: 14
